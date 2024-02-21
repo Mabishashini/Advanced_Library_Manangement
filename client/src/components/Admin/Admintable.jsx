@@ -119,7 +119,7 @@ export const Admintable = () => {
               <th>Publication</th>
               <th>Copies</th>
               <th>Shelf Location</th>
-              <th>Delete</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>

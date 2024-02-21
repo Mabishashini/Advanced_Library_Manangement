@@ -29,6 +29,7 @@ export const Addform = () => {
     axios.post('http://localhost:8800/addBook', book)
       .then((response) => {
         console.log('Book added successfully:', response.data);
+        alert("Book added successfully")
         navigate("/admin");
       })
       .catch((error) => {

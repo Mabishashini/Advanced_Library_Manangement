@@ -1,0 +1,69 @@
+.admin_header {
+    background-color: #b1a0d9;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .admin_header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .admin_header-content h1 {
+    margin: 20px;
+  }
+  
+  .admin_header-content a {
+    color: #fff;
+    text-decoration: none;
+    margin:20px
+  }
+  button{
+    cursor:pointer;
+  }
+  .admin_filterContainer {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    max-width:960px;
+  }
+  
+  .admin_filterContainer select {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .admin_filterContainer input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width:100%
+  }
+  
+  .admin_filterContainer input[type="text"]:focus,
+  .admin_filterContainer select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .admin_filterContainer input[type="text"]::placeholder {
+    color: #999;
+  }
+  
+  .admin_filterContainer input[type="text"]:hover::placeholder,
+  .admin_filterContainer select:hover::placeholder {
+    color: #666;
+  }
+  
+  .admin_filterContainer input[type="text"]:focus::placeholder,
+  .admin_filterContainer select:focus::placeholder {
+    color: transparent;
+  }

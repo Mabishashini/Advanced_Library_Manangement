@@ -1,0 +1,118 @@
+.header {
+    background-color: #b1a0d9;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  
+  .header-content h1 {
+    margin: 20px;
+  }
+  
+  .header-content a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .tableContainer {
+    max-width: 960px;
+    margin: 20px auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th, table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+  
+  table th {
+    background-color: #f2f2f2;
+  }
+  
+  table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  .filterContainer {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    max-width:960px;
+  }
+  
+  .filterContainer select {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .filterContainer input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width:100%
+  }
+  
+  .filterContainer input[type="text"]:focus,
+  .filterContainer select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .filterContainer input[type="text"]::placeholder {
+    color: #999;
+  }
+  
+  .filterContainer input[type="text"]:hover::placeholder,
+  .filterContainer select:hover::placeholder {
+    color: #666;
+  }
+  
+  .filterContainer input[type="text"]:focus::placeholder,
+  .filterContainer select:focus::placeholder {
+    color: transparent;
+  }
+  
+  .pagination {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pagination button {
+    padding: 8px 16px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6c5ce7; /* Purple */
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #4834d4; /* Darker Purple */
+  }
+  
+  .pagination button:disabled {
+    background-color: #d1d8e0; /* Light Grey */
+    color: #576574; /* Dark Grey */
+    cursor: not-allowed;
+  }
+  

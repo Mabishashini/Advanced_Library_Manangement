@@ -25,7 +25,7 @@ export const Table = () => {
     try {
       const response = await axios.get("https://advanced-library-manangement.onrender.com/getBooks");
       setBooks(response.data);
-      console.log(response.data):
+      console.log(response.data)
     } catch (error) {
       console.error("Error fetching books:", error);
     }

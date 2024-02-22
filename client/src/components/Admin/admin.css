@@ -1,7 +1,7 @@
 .admin_header {
     background-color: #b1a0d9;
     color: #fff;
-    padding: 10px 0;
+    padding:  0;
     text-align: center;
   }
   .admin_header-content {
@@ -13,13 +13,13 @@
   }
 
   .admin_header-content h1 {
-    margin: 20px;
+    margin: 10px;
   }
   
   .admin_header-content a {
     color: #fff;
     text-decoration: none;
-    margin:20px
+    margin:0px
   }
   button{
     cursor:pointer;

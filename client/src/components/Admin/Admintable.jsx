@@ -18,8 +18,27 @@ export const Admintable = () => {
   }, []);
 
   useEffect(() => {
-    applyFilters();
-  }, [books, filters]);
+    const applyFilters = () => {
+      let filtered = [...books];
+      const { selectedFilter, searchText } = filters;
+  
+      if (selectedFilter && searchText) {
+        if (selectedFilter === "copies" ) {
+          const searchValue = parseInt(searchText);
+          if (!isNaN(searchValue)) {
+            filtered = filtered.filter((book) => book[selectedFilter] === searchValue);
+          }
+        } else {
+          filtered = filtered.filter((book) =>
+            book[selectedFilter]?.toLowerCase().includes(searchText.toLowerCase())
+          );
+        }
+      }
+  
+      setFilteredBooks(filtered);
+      setCurrentPage(1); // Reset to first page when applying filters
+    }; 
+  applyFilters(); }, [books,filters]);
 
   const fetchBooks = async () => {
     try {
@@ -30,26 +49,7 @@ export const Admintable = () => {
     }
   };
 
-  const applyFilters = () => {
-    let filtered = [...books];
-    const { selectedFilter, searchText } = filters;
-
-    if (selectedFilter && searchText) {
-      if (selectedFilter === "copies" ) {
-        const searchValue = parseInt(searchText);
-        if (!isNaN(searchValue)) {
-          filtered = filtered.filter((book) => book[selectedFilter] === searchValue);
-        }
-      } else {
-        filtered = filtered.filter((book) =>
-          book[selectedFilter]?.toLowerCase().includes(searchText.toLowerCase())
-        );
-      }
-    }
-
-    setFilteredBooks(filtered);
-    setCurrentPage(1); // Reset to first page when applying filters
-  };
+ 
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;

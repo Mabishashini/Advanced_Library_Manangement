@@ -1,67 +1,67 @@
 const express = require("express");
-const cors = require("cors")
-const mysql = require("mysql2")
+const cors = require("cors");
+const { Pool } = require("pg");
+const dotenv = require("dotenv").config()
 
 const app = express();
 
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "TaylorSwift@1989",
-  database: "library",
-  });
+
+const pool = new Pool({
+  user: process.env.POSTGRES_USER,
+  host: process.env.POSTGRES_HOST,
+  database: process.env.POSTGRES_DATABASE,
+  password: process.env.POSTGRES_PASSWORD,
+  ssl:{
+    rejectUnauthorized:false,
+  },
+  sslmode:'require',
+
+});
 
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
-app.get("/getBooks", (req, res)=>{
+app.get("/getBooks", async (req, res) => {
+  try {
     const query = 'SELECT * FROM books';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching books:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
-    }
-    res.json(results);
-  });
-})
+    const { rows } = await pool.query(query);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching books:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
-app.post('/addBook', (req, res) => {
-  const { name, author, Genre, pub, copies, shelf } = req.body;
-
-  const query = 'INSERT INTO books (name, author, Genre, pub, copies, shelf) VALUES (?, ?, ?, ?, ?, ?)';
-  db.query(query, [name, author, Genre, pub, copies, shelf], (err, result) => {
-    if (err) {
-      console.error('Error adding book:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
-    }
+app.post('/addBook', async (req, res) => {
+  try {
+    const { name, author, Genre, pub, copies, shelf } = req.body;
+    const query = 'INSERT INTO books (name, author, Genre, pub, copies, shelf) VALUES ($1, $2, $3, $4, $5, $6)';
+    await pool.query(query, [name, author, Genre, pub, copies, shelf]);
     console.log('Book added successfully');
     res.json({ message: 'Book added successfully' });
-  });
+  } catch (error) {
+    console.error('Error adding book:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-app.delete('/deleteBook/:id', (req, res) => {
-  const bookId = req.params.id;
-
-  const query = 'DELETE FROM books WHERE id = ?';
-  db.query(query, [bookId], (err, result) => {
-    if (err) {
-      console.error('Error deleting book:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
-    }
-    if (result.affectedRows === 0) {
-      // If no rows were affected, it means the book with the given ID was not found
+app.delete('/deleteBook/:id', async (req, res) => {
+  try {
+    const bookId = req.params.id;
+    const query = 'DELETE FROM books WHERE id = $1';
+    const result = await pool.query(query, [bookId]);
+    if (result.rowCount === 0) {
       res.status(404).json({ error: 'Book not found' });
-      return;
+    } else {
+      console.log('Book deleted successfully');
+      res.json({ message: 'Book deleted successfully' });
     }
-    console.log('Book deleted successfully');
-    res.json({ message: 'Book deleted successfully' });
-  });
+  } catch (error) {
+    console.error('Error deleting book:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-
-app.listen(8800, (req, res) => {
-    console.log("API Working!")
-})
+app.listen(8800, () => {
+  console.log("API Working!");
+});

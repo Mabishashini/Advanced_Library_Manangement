@@ -18,7 +18,13 @@ const pool = new Pool({
 
 });
 
-app.use(cors());
+const allowedOrigins = ["https://advanced-library-manangement.vercel.app"];
+
+const corsOptions = {
+  origin: allowedOrigins,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/getBooks", async (req, res) => {

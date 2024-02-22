@@ -26,7 +26,7 @@ export const Addform = () => {
       alert('Please fill in all fields');
       return;
     }
-    axios.post('http://localhost:8800/addBook', book)
+    axios.post('https://advanced-library-manangement.onrender.com/addBook', book)
       .then((response) => {
         console.log('Book added successfully:', response.data);
         alert("Book added successfully")

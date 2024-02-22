@@ -23,7 +23,7 @@ export const Table = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get("http://localhost:8800/getBooks");
+      const response = await axios.get("https://advanced-library-manangement.onrender.com/getBooks");
       setBooks(response.data);
     } catch (error) {
       console.error("Error fetching books:", error);
@@ -63,17 +63,7 @@ export const Table = () => {
 
   // Logic to change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const handleDelete =async (id)=>{
-    await axios.delete(`http://localhost:8800/deleteBook/${id}`)
-    .then((response) => {
-      console.log('Book deleted successfully:', response.data);
-      // After successful deletion, fetch updated list of books
-      fetchBooks();
-    })
-    .catch((error) => {
-      console.error('Error deleting book:', error);
-    });
-  }
+  
 
   return (
     <div>

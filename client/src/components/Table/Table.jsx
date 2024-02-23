@@ -25,6 +25,7 @@ export const Table = () => {
     try {
       const response = await axios.get("https://advanced-library-manangement.onrender.com/getBooks");
       setBooks(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error("Error fetching books:", error);
     }
@@ -117,7 +118,7 @@ export const Table = () => {
                 <td>{indexOfFirstItem + index + 1}</td>
                 <td>{book.name}</td>
                 <td>{book.author}</td>
-                <td>{book.Genre}</td>
+                <td>{book.genre}</td>
                 <td>{book.pub}</td>
                 <td>{book.copies}</td>
                 <td>{book.shelf}</td>

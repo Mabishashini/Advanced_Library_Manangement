@@ -70,7 +70,7 @@ export const Table = () => {
       <header className="header">
         <div className="header-content">
           <h1>Library Management</h1>
-          <Link to="/login">Login</Link>
+          <Link to="/login">Admin Login</Link>
         </div>
       </header>
 

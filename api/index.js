@@ -68,6 +68,28 @@ app.delete('/deleteBook/:id', async (req, res) => {
   }
 });
 
+
+app.post("/register", async(req,res) => {
+  const username = req.body.username;
+  const password = req.body.password
+  console.log("Hello")
+
+  try {
+    const checkUser = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    if (checkUser.rows.length > 0) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Insert new user into the database
+    const newUser = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, password]);
+
+    res.status(201).json({ message: 'User registered successfully', user: newUser.rows[0] });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: 'An error occurred while registering user' });
+  }
+})
+
 app.listen(8800, () => {
   console.log("API Working!");
 });

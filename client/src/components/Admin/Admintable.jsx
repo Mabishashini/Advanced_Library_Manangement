@@ -128,7 +128,7 @@ export const Admintable = () => {
                 <td>{indexOfFirstItem + index + 1}</td>
                 <td>{book.name}</td>
                 <td>{book.author}</td>
-                <td>{book.Genre}</td>
+                <td>{book.genre}</td>
                 <td>{book.pub}</td>
                 <td>{book.copies}</td>
                 <td>{book.shelf}</td>

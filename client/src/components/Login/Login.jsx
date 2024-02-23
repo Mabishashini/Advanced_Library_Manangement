@@ -20,29 +20,22 @@ export const Login = () => {
   };
 
   return (
-    <div className="login_container">
-      {loggedIn ? (
-        console.log("Welcome Admin!")
-      ) : (
-        <div className="login-form">
-          Admin Login
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <br />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br />
-          <button onClick={handleLogin}>Login</button>
-        </div>
-      )}
-    </div>
+
+
+    <div className="login-container">
+    <form className="login-form" onSubmit={handleLogin}>
+      <h2>Login</h2>
+      <div className="form-group">
+        <label htmlFor="username">Username</label>
+        <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+      </div>
+      <div className="form-group">
+        <label htmlFor="password">Password</label>
+        <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </div>
+      
+      <button type="submit" className="login-btn">Login</button>
+    </form>
+  </div>
   );
 };

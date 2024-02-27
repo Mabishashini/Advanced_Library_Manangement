@@ -4,10 +4,10 @@ import "./home.css";
 import book from "../../books.jpg"
 
 
-const Home = () => {
+export const Home = () => {
   return (
     <div className="home-page container">
-      <header>
+      <header className="Home_header">
         <div className="logo">
           <h1>Library Management</h1>
         </div>
@@ -51,5 +51,3 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;

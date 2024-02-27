@@ -57,3 +57,27 @@
     background-color: #4834d4; /* Darker Purple */
   }
   
+  .error {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+  }
+
+  
+  /* addform.css */
+
+/* Style for the select dropdown */
+.select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+/* Style for the dropdown options */
+.select option {
+  background-color: #fff;
+  color: #212529;
+}

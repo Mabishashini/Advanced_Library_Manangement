@@ -6,10 +6,7 @@ import "./admin.css"
 export const Admintable = () => {
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
-  const [filters, setFilters] = useState({
-    selectedFilter: "",
-    searchText: ""
-  });
+  const [filters, setFilters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(15); // Number of items to display per page
 
@@ -18,42 +15,65 @@ export const Admintable = () => {
   }, []);
 
   useEffect(() => {
-    const applyFilters = () => {
-      let filtered = [...books];
-      const { selectedFilter, searchText } = filters;
-  
-      if (selectedFilter && searchText) {
-        if (selectedFilter === "copies" ) {
-          const searchValue = parseInt(searchText);
-          if (!isNaN(searchValue)) {
-            filtered = filtered.filter((book) => book[selectedFilter] === searchValue);
-          }
-        } else {
-          filtered = filtered.filter((book) =>
-            book[selectedFilter]?.toLowerCase().includes(searchText.toLowerCase())
-          );
-        }
-      }
-  
-      setFilteredBooks(filtered);
-      setCurrentPage(1); // Reset to first page when applying filters
-    }; 
-  applyFilters(); }, [books,filters]);
+    applyFilters();
+  }, [books, filters]);
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get("https://advanced-library-manangement.onrender.com/getBooks");
+      const response = await axios.get("http://localhost:8800/getBooks");
       setBooks(response.data);
     } catch (error) {
       console.error("Error fetching books:", error);
     }
   };
 
- 
+  const applyFilters = () => {
+    let filtered = [...books];
 
-  const handleFilterChange = (e) => {
+    filters.forEach((filter) => {
+      const { selectedFilter, searchText } = filter;
+
+      if (selectedFilter && searchText) {
+        if (selectedFilter === "copies") {
+          const searchValue = parseInt(searchText);
+          if (!isNaN(searchValue)) {
+            filtered = filtered.filter(
+              (book) => book[selectedFilter] === searchValue
+            );
+          }
+        } else {
+          filtered = filtered.filter((book) =>
+            book[selectedFilter]
+              ?.toLowerCase()
+              .includes(searchText.toLowerCase())
+          );
+        }
+      }
+    });
+
+    setFilteredBooks(filtered);
+    setCurrentPage(1); // Reset to first page when applying filters
+  };
+
+  const handleFilterChange = (e, index) => {
     const { name, value } = e.target;
-    setFilters({ ...filters, [name]: value });
+    const newFilters = [...filters];
+    newFilters[index] = { ...newFilters[index], [name]: value };
+    setFilters(newFilters);
+  };
+
+  const addFilter = () => {
+    setFilters([...filters, { selectedFilter: "", searchText: "" }]);
+  };
+
+  const removeFilter = (index) => {
+    const newFilters = [...filters];
+    newFilters.splice(index, 1);
+    setFilters(newFilters);
+  };
+
+  const resetFilters = () => {
+    setFilters([]);
   };
 
   // Logic to get current items for the current page
@@ -64,7 +84,7 @@ export const Admintable = () => {
   // Logic to change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleDelete =async (id)=>{
-    await axios.delete(`https://advanced-library-manangement.onrender.com/deleteBook/${id}`)
+    await axios.delete(`http://localhost:8800/deleteBook/${id}`)
     .then((response) => {
       console.log('Book deleted successfully:', response.data);
       // After successful deletion, fetch updated list of books
@@ -85,27 +105,46 @@ export const Admintable = () => {
         </div>
       </header>
 
-      <div className="admin_filterContainer">
-        <select
-          name="selectedFilter"
-          value={filters.selectedFilter}
-          onChange={handleFilterChange}
+      <div className="filterContainer">
+        {filters.map((filter, index) => (
+          <div key={index} className="filter">
+            <select
+              name="selectedFilter"
+              value={filter.selectedFilter}
+              onChange={(e) => handleFilterChange(e, index)}
+            >
+              <option value="">Select Filter</option>
+              <option value="name">Name</option>
+              <option value="author">Author</option>
+              <option value="genre">Genre</option>
+              <option value="pub">Publication</option>
+              <option value="copies">Copies</option>
+              <option value="shelf">Shelf</option>
+            </select>
+            <input
+              type="text"
+              placeholder="Enter search text"
+              name="searchText"
+              value={filter.searchText}
+              onChange={(e) => handleFilterChange(e, index)}
+            />
+            <button onClick={() => removeFilter(index)}>X</button>
+          </div>
+        ))}
+        <button
+          className="filter_button"
+          onClick={addFilter}
+          disabled={filters.some((filter) => !filter.searchText.trim())}
         >
-          <option value="">Select Filter</option>
-          <option value="name">Name</option>
-          <option value="author">Author</option>
-          <option value="Genre">Genre</option>
-          <option value="pub">Publication</option>
-          <option value="copies">Copies</option>
-          <option value="shelf">Shelf</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Enter search text"
-          name="searchText"
-          value={filters.searchText}
-          onChange={handleFilterChange}
-        />
+          Add Filter
+        </button>
+        <button
+          className="filter_button"
+          onClick={resetFilters}
+          disabled={filters.length === 0}
+        >
+          Reset Filters
+        </button>
       </div>
       
       <div className="tableContainer">
@@ -141,11 +180,17 @@ export const Admintable = () => {
         </table>
       </div>
       <div className="pagination">
-        <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           Previous
         </button>
         <span>{currentPage}</span>
-        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastItem >= filteredBooks.length}>
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={indexOfLastItem >= filteredBooks.length}
+        >
           Next
         </button>
       </div>
